@@ -7,6 +7,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 client = discord.Client()
 
 # TOKEN = "NzUyOTEwNDIwMzkzNTkwOTU0.X1egeA.kRpRi6-ATUwj35t08SBGKgcdYZY"
+PORT = os.environ["PORT"]
 TOKEN = os.environ["DISCORD_KEY"]
 SENTENCE_COUNT = 4
 
@@ -38,7 +39,7 @@ async def on_message(message):
 
 
 def run_side_server():
-    httpd = HTTPServer(('localhost', 8000), BaseHTTPRequestHandler)
+    httpd = HTTPServer(('localhost', int(PORT)), BaseHTTPRequestHandler)
     httpd.serve_forever()
 
 
