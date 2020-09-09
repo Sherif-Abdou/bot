@@ -6,7 +6,6 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 client = discord.Client()
 
-# TOKEN = "NzUyOTEwNDIwMzkzNTkwOTU0.X1egeA.kRpRi6-ATUwj35t08SBGKgcdYZY"
 PORT = os.environ["PORT"]
 TOKEN = os.environ["DISCORD_KEY"]
 INITIAL = "??"
@@ -40,6 +39,7 @@ async def on_message(message):
 
 
 def run_side_server():
+    print(f"starting server on port {PORT}")
     httpd = HTTPServer(('localhost', int(PORT)), BaseHTTPRequestHandler)
     httpd.serve_forever()
 
