@@ -1,6 +1,8 @@
 import discord
 import wikipedia
 import os
+from threading import Thread
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 client = discord.Client()
 
@@ -35,4 +37,13 @@ async def on_message(message):
         await message.channel.send(summary)
 
 
+def run_side_server():
+    httpd = HTTPServer(('localhost', 8000), BaseHTTPRequestHandler)
+    httpd.serve_forever()
+
+
+thr = Thread(target=run_side_server)
+thr.start()
+
 client.run(TOKEN)
+thr.join()
