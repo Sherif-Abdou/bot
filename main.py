@@ -9,6 +9,7 @@ client = discord.Client()
 # TOKEN = "NzUyOTEwNDIwMzkzNTkwOTU0.X1egeA.kRpRi6-ATUwj35t08SBGKgcdYZY"
 PORT = os.environ["PORT"]
 TOKEN = os.environ["DISCORD_KEY"]
+INITIAL = "??"
 SENTENCE_COUNT = 4
 
 
@@ -23,8 +24,8 @@ async def on_message(message):
         return
 
     string: str = message.content
-    if string.startswith("?#s "):
-        rest = string.lstrip("?#s ")
+    if string.startswith(INITIAL):
+        rest = string.lstrip(INITIAL)
         print(f"Rest: {rest}")
         rest = rest.strip()
         print(f"Stripped: {rest}")
