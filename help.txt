@@ -1,0 +1,15 @@
+??wiki [term]: searches for term on wikipedia
+??def [word]: outputs english definition
+??syn [word]: outputs synonyms of the word
+??ant [word]: outputs antonyms of the word
+??per [name|symbol|number]: outputs periodic table information on the element
+??stoi [left];[right]: balances chemical stoi thing
+
+Note: Expressions cannot contain an equals sign, Equations must
+
+??simplify [expression]: Simplifies the expression given 
+??factor [expression]: factors the expression
+??expand [expression]: expands the expression
+??solve [equation]: solves the equati
+??graph [expression]: Graphs the expression
+??help: messages this help menu
