@@ -3,7 +3,7 @@
 ??syn [word]: outputs synonyms of the word
 ??ant [word]: outputs antonyms of the word
 ??per [name|symbol|number]: outputs periodic table information on the element
-??stoi [left];[right]: balances chemical stoi thing
+??stoi [from]->[to]: balances chemical formula
 
 Note: Expressions cannot contain an equals sign, Equations must
 

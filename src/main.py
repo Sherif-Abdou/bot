@@ -22,9 +22,14 @@ PORT = os.environ["PORT"]
 TOKEN = str(os.environ["DISCORD_KEY"])
 INITIAL = "??"
 HEMANTH_ID=615020027627962408 
+SHERIF_ID=308736676807835648
+QUOC_ID=518942411658100738
 SENTENCE_COUNT = 4
 
 help_text = ""
+
+last_channel = None
+
 with open("./help.txt", "r") as f:
     help_text = f.read()
 
@@ -36,8 +41,17 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    global last_channel
     if message.author == client.user:
         return
+    elif message.channel.type == discord.ChannelType.private and message.author.id in {SHERIF_ID, QUOC_ID}:
+        string = message.content
+        if string.startswith("??goto: "):
+            rest = string.strip("??goto: ").strip()
+            last_channel = discord.utils.get(client.get_all_channels(), id=int(rest))
+            print(last_channel.id)
+            return
+        await last_channel.send(message.content)
     elif message.author.id == HEMANTH_ID and message.content == "fr":
         await message.channel.send("I have been summoned by the gods to tell Hemanth to shut up, no one cares")
         return

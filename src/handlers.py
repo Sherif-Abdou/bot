@@ -46,8 +46,6 @@ def message_handler(regex, action):
             await channel.send(f"{action}...")
             logging.info(f"{action}: {string}")
             res = ""
-            print(rest)
-            print(func)
             try:
                 res = func(rest, *args, **kwargs)
                 pass
@@ -84,7 +82,7 @@ def factor_equation(equation, *args, **kwargs):
     return to_string(res)
 
 @message_handler("\\?\\?simplify", "Simplifying")
-def simplify_equation(equation, *args, **kwargs):
+def simplify_equation(equation, channel=None, *args, **kwargs):
     eq = parse_eq(equation)
     res = simplify(parse_expr(eq))
     return to_string(res)
@@ -127,9 +125,7 @@ def graph_equation(equation, channel=None, *args, **kwargs):
 
 @message_handler("\\?\\?([a-z]{2}) ", "Translating")
 def translate(text, m=None, *args, **kwargs):
-    print(text)
     to_lang = m.group(1)
-    print(to_lang)
     res = translator.translate(text, dest=to_lang).text
     return res
 
@@ -153,7 +149,7 @@ def syn_word(word, *args, **kwargs):
     return merge_array(res) if not is_austin else "Austin, literally Austin\n\n" + merge_array(res)
 
 @message_handler("\\?\\?ant", "Finding Antonyms")
-def syn_word(word, *args, **kwargs):
+def ant_word(word, *args, **kwargs):
     words = word.split()[0]
 
     res = dictionary.antonym(words)
@@ -164,14 +160,15 @@ def stoi_formulae(formula, *args, **kwargs):
     def element_uni(element):
         return Substance.from_formula(element).unicode_name
 
-    parts = formula.split(";")
+    parts = formula.split("->")
     parts = [set(part.strip().split()) for part in parts]
     if len(parts) != 2:
-        return "Need two sides seperated by a ;"
+        return "Need two sides seperated by a ->"
     res =  [dict(s) for s in balance_stoichiometry(*parts)]
     stringed = ["\n".join([f"{element_uni(element)}: {count}" for element, count in r.items()]) for r in res]
-    return f"From:\n{stringed[0]}\n\nTo:\n{stringed[1]}"
+    return f"```\nFrom:\n{stringed[0]}\n\nTo:\n{stringed[1]}\n```"
 
+# Initializes periodic table for search_table
 table = {}
 for i, (name, symbol) in enumerate(zip(periodic.names, periodic.symbols)):
     table[str(i)] = i
@@ -182,5 +179,5 @@ for i, (name, symbol) in enumerate(zip(periodic.names, periodic.symbols)):
 def search_table(keyword, *args, **kwargs):
     term = keyword.strip()
     num =  table[term]
-    return f"{num}; Name: {periodic.names[num]}; Symbol: {periodic.symbols[num]}; Mass: {periodic.relative_atomic_masses[num]}"
+    return f"```{num}; Name: {periodic.names[num]}; Symbol: {periodic.symbols[num]}; Mass: {periodic.relative_atomic_masses[num]}```"
 
